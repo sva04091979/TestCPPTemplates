@@ -1,68 +1,100 @@
 ﻿#include <iostream>
 #include <string>
 #include "Lib.h"
+#include <vector>
+#include <list>
+#include <algorithm>
+#include <numeric>
 
 using namespace std;
 
-
-/*template <typename T, typename... Types>
-constexpr bool is_any_of = disjunction_v<is_same<T, Types>...>;
-
-template<typename Type>
-enable_if_t<is_any_of<Type,char*,wchar_t*>,void> Revers(Type text) {
-	if (*text == '\0') return;
-	Type front = text;
-	Type back = text;
-	while (*back != '\0') ++back;
-	--back;
-	while (front != back) {
-		*front ^= *back; *back ^= *front; *front ^= *back;
-		if (++front == back) break;
-		else --back;
+void FirstTask() {
+	cout << "First task" << endl;
+	using _Car = unique_ptr<ICar>;
+	vector<_Car> arr;
+	for (int i = 0; i < 10; ++i) {
+		arr.push_back(MakeCar());
 	}
+	sort(arr.begin(), arr.end(), BaseGreater<_Car>);
+	for (const auto& it : arr)
+		cout << it->Info() << endl;
 }
 
-bool CheckMask(unsigned long long left, unsigned long long right) {
-	return ((left ^ right) & right) == right;
+void SecondTask() {
+	cout << "Second Task" << endl;
+	using _Car = unique_ptr<ICar>;
+	list<_Car> cars;
+	Cargo cargo(1 + rand() % 100, 1 + rand() % 100);
+	cout << cargo.Info() << endl;
+	for (int i = 0; i < 10; ++i) {
+		cars.push_back(MakeRandomCar());
+	}
+	cout << "Cars list:" << endl;
+	for (const auto& it : cars)
+		cout << it->Info() << endl;
+	auto it = cars.begin();
+	while (it != cars.end()) {
+		if (it->get()->CanTake(cargo))
+			++it;
+		else it = cars.erase(it);
+	}
+	cout << "-------------------------" << endl;
+	for (const auto& it : cars)
+		cout << it->Info() << endl;
 }
 
-class A{
-protected:
-	void Print() { cout << "A" << endl; }
-};
-class B{};
-class C:public A{};
-class D:public A,B{};
+void ThirdTask() {
+	cout << "Third Task" << endl;
+	vector<int> arr(10);
+	iota(arr.begin(), arr.end(), 0);
+	for (auto& it : arr)
+		cout << it << " ";
+	cout << endl;
+	Add(arr.begin(),arr.end());
+	for (auto& it : arr)
+		cout << it << " ";
+	cout << endl;
+}
 
-template<typename ...Type>
-class E :public Type ... {
-public:
-	void Print() {
-		if constexpr (disjunction_v<is_base_of<A, Type>...>)
-			A::Print();
-		else
-			cout << "E" << endl;
-	}
-};
-*/
+void FoursTask() {
+	cout << "Fours Task" << endl;
+	using item = unique_ptr<IBase>;
+	vector<item> obj(10);
+	vector<int> num(10);
+	iota(num.begin(), num.end(), 0);
+	for (int i = 0; i < 10; ++i)
+		obj[i]=MakeRandom();
+	cout << "Before" << endl;
+	for (auto& it : num)
+		cout << it << " ";
+	cout << endl;
+	for (const auto& it : obj)
+		cout << it->Info() << endl;
+	Add(obj.begin(), obj.end());
+	Add(num.begin(), num.end());
+	cout << "After" << endl;
+	for (auto& it : num)
+		cout << it << " ";
+	cout << endl;
+	for (const auto& it : obj)
+		cout << it->Info() << endl;
+}
 
-struct A {
-	int a;
-};
-
-struct AA{};
-
-template<typename ...Type>
-struct B :public Type...{
-	int b;
-};
+void FifthTask() {
+	cout << "Fifth Task" << endl;
+	Named<FullCar> fullCar("First",100, 100);
+	Named<HalfCar> halfCar("Second", 200);
+	Named<Cargo> cargo("Third", 50, 50);
+	fullCar.Print();
+	halfCar.Print();
+	cargo.Print();
+}
 
 int main() {
-	/*E<B> a;
-	E<A, B> b;
-	E<D> c;
-	a.Print();
-	b.Print();
-	c.Print();
-	*/
+	srand((unsigned int)time(nullptr));
+	FirstTask();
+	SecondTask();
+	ThirdTask();
+	FoursTask();
+	FifthTask();
 }
