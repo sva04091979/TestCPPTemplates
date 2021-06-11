@@ -109,7 +109,7 @@ class Named :public Type {
 	string name;
 public:
 	template<typename...Args>
-	Named(const char* _name,Args...params) :Type(params...), name(_name) {}
+	Named(const char* _name,Args&&...params) :Type(forward<Args>(params)...), name(_name) {}
 	string Info() const override {
 		if constexpr (is_base_of_v<ICar, Type>) {
 			string ret = "Car with name " + name + ". Carrying = " + to_string(this->Weight()) + ". ";
