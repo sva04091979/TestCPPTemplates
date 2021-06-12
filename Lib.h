@@ -155,11 +155,6 @@ bool BaseGreater(Type& l, Type& r) {
 }
 
 template<typename Type>
-void Add(const Type& val) {
-	++val;
-}
-
-template<typename Type>
 void Add(Type& val) { ++val; }
 
 template<typename Type>
